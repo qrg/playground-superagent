@@ -1,0 +1,139 @@
+<!doctype html>
+<html class="no-js" lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Try superagent</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/addon/hint/show-hint.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/theme/material.min.css">
+  <style>
+    p {
+      margin-bottom: 24px;
+    }
+    .CodeMirror {
+      height: auto;
+    }
+
+    .CodeMirror-activeline {
+      background-color: #2d3a40;
+    }
+    #run-button {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Try superagent</h1>
+          <h2 class="subtitle">
+            visionmedia/superagent: Ajax with less suck - (and node.js HTTP client to match)
+          </h2>
+          <ul>
+            <li><a href="https://github.com/visionmedia/superagent">Github</a></li>
+            <li><a href="http://visionmedia.github.io/superagent/">Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="code-area container">
+        <p>
+          <textarea id="code">
+const data = {
+  message: 'Hi',
+  items: [
+    {
+      name: 'item 1',
+      tags: [
+        'tag-1', 'tag-2', 'tag-3'
+      ],
+      photos: [
+        {
+          src: '/path/to/photo-1.jpg',
+          label: 'photo 1'
+        },
+        {
+          src: '/path/to/photo-2.jpg',
+          label: 'photo 2'
+        }
+      ]
+    }
+  ]
+};
+
+superagent.post('http://localhost:3000/echo')
+  .send(data)
+  .set('Accept', 'application/json')
+  .end((err, res) => {
+    if (err || !res.ok) {
+      return console.error(err);
+    }
+    console.log(res.body);
+});
+          </textarea>
+        </p>
+        <p>
+          <button id="run-button" class="button is-primary is-outlined is-medium">Run</button>
+        </p>
+        <p>Open DevTools Console to see result.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          The source code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/addon/hint/show-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/addon/hint/javascript-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/addon/selection/active-line.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/2.2.0/superagent.min.js"></script>
+  <script>
+    function windowOnload() {
+      var textarea = document.getElementById('code');
+      var runButton = document.getElementById('run-button');
+      var editor = CodeMirror.fromTextArea(textarea, {
+        lineNumbers: true,
+        lineWrapping: true,
+        styleActiveLine: true,
+        matchBrackets: true,
+        theme: 'material',
+        extraKeys: {'Ctrl-Space': 'autocomplete'},
+        mode: {name: 'javascript', globalVars: true}
+      });
+
+      runButton.addEventListener('click', function () {
+        var code = editor.getValue();
+        new Function(code)();
+      });
+    }
+    var readyState = document.readyState;
+    if (readyState === "interactive" || readyState === 'complete') {
+      windowOnload();
+    } else {
+      window.addEventListener("DOMContentLoaded", windowOnload);
+    }
+  </script>
+</body>
+
+</html>
