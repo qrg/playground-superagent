@@ -11,7 +11,7 @@
   "author": "qrg",
   "license": "MIT",
   "dependencies": {
-    "superagent": "^2.2.0"
+    "superagent": "^6.0.0"
   },
   "babel": {
     "presets": [
